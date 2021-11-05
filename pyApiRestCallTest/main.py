@@ -2,11 +2,11 @@ import requests
 from plotly.graph_objs import Bar
 from plotly import offline
 
-url = "https://pyapirestcalltest-8082.restdb.io/rest/requests"
+url = "https://pyapirestcalltest-<YOUR ID>.restdb.io/rest/requests"
 
 headers = {
     'content-type': "application/json",
-    'x-apikey': "b8e7133aca0c1cbdf661d147eb533874de21f",
+    'x-apikey': "<YOUR API KEY>",
     'cache-control': "no-cache"
 }
 
