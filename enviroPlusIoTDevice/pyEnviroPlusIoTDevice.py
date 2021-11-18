@@ -3,9 +3,11 @@ from time import sleep
 from bme280 import BME280
 from enviroplus import gas
 from subprocess import PIPE, Popen, check_output
+from azure.iot.hub import IoTHubRegistryManager
 from azure.iot.device import IoTHubDeviceClient, Message
 
-CONNECTION_STRING = "[Your Connection String]"
+HOST_NAME = ".azure-devices.net"
+CONNECTION_STRING = "HostName=" + HOST_NAME + ";SharedAccessKeyName=iothubowner;SharedAccessKey=[your SharedAccessKey]"
 
 print("Press Ctrl+C to exit!")
 
@@ -47,16 +49,26 @@ def sendToIotHub(values, client):
     client.send_message(message)
     return True
 
-def registerClient(id):
+def getClient(id):
     try:
-        client = IoTHubDeviceClient.create_from_connection_string(connectionString)
-        return client
-    except KeyboardInterrupt:
-        print("Stopped!")
+        iothubRegistryManager = IoTHubRegistryManager.from_connection_string(CONNECTION_STRING)
+        if (iothubRegistryManager.get_device(id)):
+            return iothubRegistryManager.get_device(id)
+    except:
+        primaryKey = "s5r3pbY8RFwWkxKGZpjc7No99HaOtUUm1TqZHFXCBs4="
+        secondaryKey = "Wh6y1/a2PDj4uAvbezN55XV6TvEdSuJxcq65TrzcsG0="
+        deviceState = "enabled"
+        iotEdge = False
+        newDevice = iothubRegistryManager.create_device_with_sas(
+            id, primaryKey, secondaryKey, deviceState, iotEdge
+        )
+        return newDevice
 
-def connectionClient(connectionString, id):
+def connectionClient(device):
     try:
-        client = IoTHubDeviceClient.create_from_connection_string(connectionString)
+        client = IoTHubDeviceClient.create_from_symmetric_key(
+            device.authentication.symmetric_key.primary_key, HOST_NAME, device.device_id
+            )
         return client
     except KeyboardInterrupt:
         print("Stopped!")
@@ -70,20 +82,22 @@ haveWifi = checkWifi()
 print("Raspberry Pi serial: {}".format(getSerialNumber()))
 print("Wi-Fi: {}\n".format("connected & send data" if haveWifi else "disconnected & exit program"))
 
-connectionClient = ""
-
 if haveWifi:
-    print("registrar device y crearlo si no existe")
-else:
+    device = getClient(id)
+else:    
     sys.exit()
 
-client = connectionClient(connectionClient)
+if device:
+    client = connectionClient(device)
+else:
+    print("Error with connectionClient!")
+    sys.exit()
 
 while True:
     try:
         values = readValues()
         print(values)
-        message = Message([{"value_type": key, "value": val} for key, val in values.items()])
+        message = Message(str(values))
         client.send_message(message)
         sleep(5)            
     except Exception as e:
