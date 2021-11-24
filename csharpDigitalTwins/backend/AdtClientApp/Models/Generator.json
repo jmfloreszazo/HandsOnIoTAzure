@@ -1,0 +1,44 @@
+{
+  "@id": "dtmi:com:idt:wt:generator;1",
+  "@type": "Interface",
+  "@context": [
+    "dtmi:dtdl:context;2"
+  ],
+  "displayName": "WT Generator",
+  "description": "",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "GeneratorSerial",
+      "schema": "string"
+    },
+    {
+      "@type": "Property",
+      "name": "Type",
+      "schema": "string"
+    },
+    {
+      "@type": "Property",
+      "name": "Number",
+      "schema": "integer"
+    },
+    {
+      "@type": "Property",
+      "name": "MaxSpeed",
+      "schema": "double"
+    },
+    {
+      "@type": "Property",
+      "name": "Manufacturer",
+      "schema": "string"
+    },
+    {
+      "@type": "Relationship",
+      "name": "PartOf",
+      "displayName": "PartOf",
+      "minMultiplicity": 0,
+      "maxMultiplicity": 1,
+      "target": "dtmi:com:idt:wt:nacelle;1"
+    }
+  ]
+}

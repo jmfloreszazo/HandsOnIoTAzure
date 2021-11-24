@@ -1,0 +1,69 @@
+{
+   "@id":"dtmi:com:idt:wt:nacelle;1",
+   "@type":"Interface",
+   "@context":[
+      "dtmi:dtdl:context;2"
+   ],
+   "displayName":"WT Nacelle",
+   "description":"",
+  "contents": [
+    {
+      "@type": "Property",
+      "name": "NacelleSerial",
+      "schema": "string"
+    },
+    {
+      "@type": "Property",
+      "name": "Type",
+      "schema": "string"
+    },
+    {
+      "@type": "Property",
+      "name": "Shape",
+      "schema": "string"
+    },
+    {
+      "@type": "Property",
+      "name": "CorrosionProtect",
+      "schema": "string"
+    },
+    {
+      "@type": "Property",
+      "name": "Manufacturer",
+      "schema": "string"
+    },
+    {
+      "@type": "Property",
+      "name": "Weight",
+      "schema": "double"
+    },
+    {
+      "@type": "Property",
+      "name": "Long",
+      "schema": "double"
+    },
+    {
+      "@type": "Property",
+      "name": "High",
+      "schema": "double"
+    },
+    {
+      "@type": "Property",
+      "name": "Wide",
+      "schema": "double"
+    },
+    {
+      "@type": "Telemetry",
+      "name": "Angle",
+      "schema": "double"
+    },
+    {
+      "@type": "Relationship",
+      "name": "Houses",
+      "displayName": "Houses",
+      "minMultiplicity": 0,
+      "maxMultiplicity": 1,
+      "target": "dtmi:com:idt:wt:windturbine;1"
+    }
+  ]
+}
