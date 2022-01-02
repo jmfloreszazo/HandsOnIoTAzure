@@ -64,7 +64,7 @@ namespace csharpRouteSample
                     var deviceClient = DeviceClient.Create(IotHubHostname,
                         new DeviceAuthenticationWithRegistrySymmetricKey(item.Id,
                             item.SharedAccessKey),
-                        TransportType.Http1);
+                        TransportType.Amqp);
 
                     var deviceTelemetryData = new
                         { messageId = Guid.NewGuid().ToString(), deviceId = item.Id, value = id };
